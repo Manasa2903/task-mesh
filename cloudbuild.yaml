@@ -1,0 +1,24 @@
+steps:
+  # Build and push container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/task-mesh", "."]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/task-mesh"]
+
+  # Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "task-mesh"
+      - "--image=gcr.io/$PROJECT_ID/task-mesh"
+      - "--region=us-central1"
+      - "--platform=managed"
+      - "--allow-unauthenticated"
+      - "--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID"
+      - "--memory=512Mi"
+      - "--cpu=1"
+
+images:
+  - "gcr.io/$PROJECT_ID/task-mesh"

@@ -1,0 +1,13 @@
+.venv/
+venv/
+node_modules/
+frontend/dist/
+__pycache__/
+*.py[cod]
+.git
+.gitignore
+*.md
+.env
+backend/.env
+backend/credentials/
+backend/**/*.json
